@@ -12,8 +12,10 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/masked-view": "^0.1.7",
+    "@react-navigation/bottom-tabs": "^5.2.0",
     "@react-navigation/native": "^5.0.9",
     "@react-navigation/stack": "^5.1.1",
+    "buffer": "^5.5.0",
     "moment": "^2.24.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
@@ -21,6 +23,7 @@
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.3.0",
+    "react-native-uuid": "^1.4.9",
     "react-redux": "^7.2.0",
     "reactotron-react-native": "^4.0.3",
     "reactotron-redux": "^3.1.2",

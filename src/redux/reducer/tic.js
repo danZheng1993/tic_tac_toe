@@ -1,3 +1,5 @@
+import uuid from 'react-native-uuid';
+
 import {
   UPDATE_PANEL,
   UPDATE_USER_INPUT,
@@ -52,11 +54,11 @@ export default (state = initialState, action) => {
       newTics[remainingTics[pos]] = state.inputType === 'X' ? 'O' : 'X';
       const winner = getWinner(newTics);
       const finished = winner ? true : isFinished(newTics);
-      const score = winner
-        ? winner === state.inputType
-          ? {status: 'won', time: new Date()}
-          : {status: 'lose', time: new Date()}
-        : {status: 'draw', time: new Date()};
+      const score = {
+        id: uuid.v4(),
+        status: winner ? (winner === state.inputType ? 'won' : 'lost') : 'draw',
+        time: new Date(),
+      };
       return {
         ...state,
         tics: newTics,

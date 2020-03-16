@@ -1,16 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {connect} from 'react-redux';
-import moment from 'moment';
 
 import {Button} from '../../component/button';
 import {GameBoard} from './component';
 
-import {startGame, endGame} from '../../redux/actions';
+import {startGame, endGame, updateUserInput} from '../../redux/actions';
 
 const MainScreen = ({
   startGame,
   endGame,
+  updateUserInput,
   started,
   winner,
   finished,
@@ -20,22 +20,37 @@ const MainScreen = ({
     if (started) {
       endGame();
     } else {
-      startGame();
+      Alert.alert('Starting the game', 'Please select your marker', [
+        {
+          text: 'X',
+          onPress: () => {
+            updateUserInput('X');
+            startGame();
+          },
+        },
+        {
+          text: 'O',
+          onPress: () => {
+            updateUserInput('O');
+            startGame();
+          },
+        },
+      ]);
     }
   };
   const renderWinner = () => {
     if (finished) {
       if (winner) {
         const text = winner === inputType ? 'You won!' : 'You lost!';
-        return <Text>{text}</Text>;
+        return <Text style={styles.title}>{text}</Text>;
       } else {
-        return <Text>Draw!</Text>;
+        return <Text style={styles.title}>Draw!</Text>;
       }
     }
     if (started) {
-      return <Text>Game has started</Text>;
+      return <Text style={styles.title}>Game has started</Text>;
     }
-    return <Text>Press button to start!</Text>;
+    return <Text style={styles.title}>Press button to start!</Text>;
   };
   return (
     <View style={styles.wrapper}>
@@ -57,11 +72,16 @@ const styles = {
     paddingVertical: 32,
     paddingHorizontal: 16,
   },
+  title: {
+    marginTop: 32,
+    fontSize: 32,
+    textAlign: 'center',
+  },
 };
 
 const mapStateToProps = ({tic}) => ({...tic});
 
 export default connect(
   mapStateToProps,
-  {startGame, endGame},
+  {startGame, endGame, updateUserInput},
 )(MainScreen);
