@@ -6,16 +6,10 @@ import RNPickerSelect from 'react-native-picker-select';
 import {Button} from '../../component/button';
 import {GameBoard} from './component';
 
-import {
-  startGame,
-  endGame,
-  updateUserInput,
-  changeAIType,
-} from '../../redux/actions';
+import {startGame, updateUserInput, changeAIType} from '../../redux/actions';
 
 const MainScreen = ({
   startGame,
-  endGame,
   updateUserInput,
   changeAIType,
   started,
@@ -80,10 +74,7 @@ const MainScreen = ({
       </View>
       <View style={styles.content}>
         <GameBoard />
-        <Button
-          title={started ? 'End Game' : 'Start Game'}
-          onPress={handleButtonPress}
-        />
+        {!started && <Button title="Start Game" onPress={handleButtonPress} />}
       </View>
     </View>
   );
@@ -133,5 +124,5 @@ const mapStateToProps = ({tic}) => ({...tic});
 
 export default connect(
   mapStateToProps,
-  {startGame, endGame, updateUserInput, changeAIType},
+  {startGame, updateUserInput, changeAIType},
 )(MainScreen);
