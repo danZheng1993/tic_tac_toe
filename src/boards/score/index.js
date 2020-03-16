@@ -13,9 +13,34 @@ const ScoreScreen = ({scores}) => {
       <Text>No scores yet.</Text>
     </View>
   );
+  const renderStatus = () => {
+    const win = scores.filter(score => score.status === 'won');
+    const draw = scores.filter(score => score.status === 'draw');
+    const lost = scores.filter(score => score.status === 'lost');
+    let totalScore = scores.reduce((prev, score) => {
+      if (score.status === 'won') {
+        return prev + (score.cpu === 'random' ? 3 : 5);
+      }
+      if (score.status === 'draw') {
+        return prev + (score.cpu === 'random' ? 0 : 1);
+      }
+      return prev + (score.cpu === 'random' ? -3 : -1);
+    }, 0);
+    return (
+      <View style={styles.scoreWrapper}>
+        <Text style={styles.totalScore}>Total score: {totalScore}</Text>
+        <Text style={styles.scoreSummary}>
+          <Text>Win: {win.length} </Text>
+          <Text>Draw: {draw.length} </Text>
+          <Text>Lost: {lost.length} </Text>
+        </Text>
+      </View>
+    );
+  };
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Score Boards</Text>
+      {renderStatus()}
       <FlatList
         contentContainerStyle={styles.contentContainer}
         data={scores}
@@ -42,6 +67,14 @@ const styles = {
     marginTop: 32,
     fontSize: 32,
     textAlign: 'center',
+  },
+  scoreWrapper: {
+    paddingVertical: 16,
+    alignItems: 'flex-start',
+  },
+  totalScore: {
+    fontSize: 16,
+    paddingBottom: 8,
   },
 };
 
