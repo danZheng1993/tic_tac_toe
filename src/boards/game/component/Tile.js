@@ -22,7 +22,9 @@ export const Tile = ({started, status, onPress}) => {
       disabled={!started || (status === 'X' || status === 'O')}
       onPress={onPress}>
       <View style={styles.wrapper}>
-        <Text style={styles.tileStatus}>{status || ''}</Text>
+        <Text style={styles.tileStatus}>
+          {status === 'X' || status === 'O' ? status : ''}
+        </Text>
       </View>
     </TouchableHighlight>
   );

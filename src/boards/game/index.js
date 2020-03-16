@@ -1,20 +1,28 @@
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, Picker} from 'react-native';
 import {connect} from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
 
 import {Button} from '../../component/button';
 import {GameBoard} from './component';
 
-import {startGame, endGame, updateUserInput} from '../../redux/actions';
+import {
+  startGame,
+  endGame,
+  updateUserInput,
+  changeAIType,
+} from '../../redux/actions';
 
 const MainScreen = ({
   startGame,
   endGame,
   updateUserInput,
+  changeAIType,
   started,
   winner,
   finished,
   inputType,
+  aiType,
 }) => {
   const handleButtonPress = () => {
     if (started) {
@@ -54,12 +62,29 @@ const MainScreen = ({
   };
   return (
     <View style={styles.wrapper}>
-      {renderWinner()}
-      <GameBoard />
-      <Button
-        title={started ? 'End Game' : 'Start Game'}
-        onPress={handleButtonPress}
-      />
+      <View style={styles.header}>
+        {renderWinner()}
+        <Text style={styles.modeSelect}>Please select CPU mode</Text>
+        <View style={styles.pickerWrapper}>
+          <RNPickerSelect
+            disabled={started}
+            value={aiType}
+            style={styles.picker}
+            onValueChange={value => changeAIType(value)}
+            items={[
+              {label: 'Random', value: 'random'},
+              {label: 'Smart', value: 'smart'},
+            ]}
+          />
+        </View>
+      </View>
+      <View style={styles.content}>
+        <GameBoard />
+        <Button
+          title={started ? 'End Game' : 'Start Game'}
+          onPress={handleButtonPress}
+        />
+      </View>
     </View>
   );
 };
@@ -72,10 +97,35 @@ const styles = {
     paddingVertical: 32,
     paddingHorizontal: 16,
   },
+  header: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    height: 150,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   title: {
     marginTop: 32,
     fontSize: 32,
     textAlign: 'center',
+  },
+  modeSelect: {
+    fontSize: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  picker: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30,
   },
 };
 
@@ -83,5 +133,5 @@ const mapStateToProps = ({tic}) => ({...tic});
 
 export default connect(
   mapStateToProps,
-  {startGame, endGame, updateUserInput},
+  {startGame, endGame, updateUserInput, changeAIType},
 )(MainScreen);

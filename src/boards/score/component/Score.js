@@ -16,6 +16,9 @@ const getStatusText = status => {
 export default ({detail}) => (
   <View style={styles.wrapper}>
     <Text style={styles.status}>{getStatusText(detail.status)}</Text>
+    <Text style={styles.against}>
+      {detail.cpu === 'smart' ? 'Smart Mode' : 'Random Mode'}
+    </Text>
     <Text style={styles.time}>
       {moment(detail.time).format('MMM Do YYYY, h:mm:ss a')}
     </Text>
@@ -26,7 +29,6 @@ const styles = {
   wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     borderBottomWidth: 0.3,
     borderStyle: 'solid',
     borderColor: '#c3c3c3',
@@ -34,8 +36,15 @@ const styles = {
   },
   status: {
     fontSize: 16,
+    width: 80,
+  },
+  against: {
+    fontSize: 12,
+    width: 100,
   },
   time: {
+    flex: 1,
     fontSize: 12,
+    textAlign: 'right',
   },
 };

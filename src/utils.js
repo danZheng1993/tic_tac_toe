@@ -35,7 +35,7 @@ export const isWinner = cells => {
 };
 
 export const isFinished = tics => {
-  const a = tics.filter(tic => tic === null);
+  const a = tics.filter(tic => tic !== 'X' && tic !== 'O');
   return a.length === 1;
 };
 
